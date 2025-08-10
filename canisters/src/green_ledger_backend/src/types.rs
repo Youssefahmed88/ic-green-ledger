@@ -1,8 +1,7 @@
-// src/types.rs
 use candid::{CandidType, Deserialize, Principal};
 use std::collections::HashMap;
 
-#[derive(Clone, Debug, CandidType, Deserialize)]
+#[derive(Clone, Debug, CandidType, Deserialize, PartialEq)] // Added PartialEq
 pub enum PolicyStatus {
     Active,
     Paused,
@@ -98,4 +97,12 @@ pub struct PolicyDetails {
     pub covers_full_season: bool,
     pub subscriber_count: usize,
     pub(crate) crop_stage: CropStage,
+}
+
+#[derive(CandidType, Deserialize)]
+pub struct PlatformStats {
+    pub total_payouts_issued: u64,
+    pub active_policies_count: u64,
+    pub total_policies_created: u64,
+    pub total_nfts_minted: u64,
 }

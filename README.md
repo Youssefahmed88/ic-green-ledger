@@ -1,103 +1,61 @@
-# 🌾 ICP-Based Drought Index Insurance Platform
+# `green_ledger`
 
-## 📌 What is this?
-A decentralized insurance platform built on the **Internet Computer Protocol (ICP)** that automatically compensates **maize farmers in Malawi** when drought conditions hit — without the need to manually file claims or prove losses.
+Welcome to your new `green_ledger` project and to the Internet Computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
 
-Powered by **Rust-based smart contracts (canisters)** and **native HTTPS outcalls**, this platform leverages ICP's unique web-speed capabilities to connect blockchain with real-world weather data, delivering fast, fair, and automated insurance for vulnerable agricultural communities.
+To get started, you might want to explore the project directory structure and the default configuration file. Working with this project in your development environment will not affect any production deployment or identity tokens.
 
-## 🌍 The Problem We're Solving
+To learn more before you start working with `green_ledger`, see the following documentation available online:
 
-### Agricultural Crisis in Malawi
-Malawi is a landlocked country in southeastern Africa where **agriculture is the backbone of the economy**, employing over 80% of the population and contributing 30% to GDP. **Maize is the primary staple crop**, feeding over 17 million people and occupying roughly 60% of all cultivated land.
+- [Quick Start](https://internetcomputer.org/docs/current/developer-docs/setup/deploy-locally)
+- [SDK Developer Tools](https://internetcomputer.org/docs/current/developer-docs/setup/install)
+- [Rust Canister Development Guide](https://internetcomputer.org/docs/current/developer-docs/backend/rust/)
+- [ic-cdk](https://docs.rs/ic-cdk)
+- [ic-cdk-macros](https://docs.rs/ic-cdk-macros)
+- [Candid Introduction](https://internetcomputer.org/docs/current/developer-docs/backend/candid/)
 
-However, **climate change has intensified weather variability**, making rainfall patterns increasingly unpredictable. Smallholder farmers - who make up 85% of agricultural producers - are particularly vulnerable to these changes.
+If you want to start working on your project right away, you might want to try the following commands:
 
-### The Devastating Impact of Droughts
-**Thousands of smallholder farmers lose their entire income every year** due to droughts and irregular rainfall. Recent major drought events include:
-* **2005**: Affected 4.2 million people, required $200M in emergency aid
-* **2012**: Left 1.8 million people food insecure, GDP dropped by 1.8%
-* **2016**: Declared national disaster, affected 6.5 million people
-* **2019**: Damaged 58% of maize crop, caused widespread hunger
+```bash
+cd green_ledger/
+dfx help
+dfx canister --help
+```
 
-### The Insurance Gap
-Traditional agricultural insurance in Malawi is fundamentally broken:
-* **Slow**: Claims processing takes weeks or months due to manual farm assessments
-* **Hard to access**: Most farmers live in remote areas with limited banking infrastructure
-* **Often untrusted**: Complex paperwork and unclear processes create deep suspicion
-* **Expensive**: High administrative costs make small-scale policies uneconomical
-* **Coverage gaps**: Only 3% of farmers have any form of crop insurance
+## Running the project locally
 
-### The Human Cost
-When droughts hit:
-* **Families go hungry** - maize provides 60% of daily calories for most Malawians
-* **Children drop out of school** - families can't afford fees after crop failures
-* **Rural-urban migration** increases as farmers abandon their land
-* **Debt cycles** deepen as farmers borrow money they can't repay
-* **Food prices spike** nationwide, affecting urban populations too
+If you want to test your project locally, you can use the following commands:
 
-## 💡 Our Solution
-This project introduces a **transparent and automatic alternative** using ICP's revolutionary blockchain capabilities that enable web-speed transactions, zero fees for users, and direct internet integration without external dependencies.
+```bash
+# Starts the replica, running in the background
+dfx start --background
 
-## 🧠 How It Works
+# Deploys your canisters to the replica and generates your candid interface
+dfx deploy
+```
 
-### 1. Policy Design
-Farmers choose between three types of drought insurance:
-* 🌼 **Flowering Stage**
-* 🌽 **Grain Filling Stage**
-* 🌦️ **Full Season**
+Once the job completes, your application will be available at `http://localhost:4943?canisterId={asset_canister_id}`.
 
-Each option covers a specific period in the maize crop cycle that is most vulnerable to drought. Instead of waiting for losses, the platform monitors **rainfall data** in real-time and triggers payouts automatically if conditions are met.
+If you have made changes to your backend canister, you can generate a new candid interface with
 
-### 2. ICP Canisters (Smart Contracts)
-Rust-based canisters are used to:
-* Store farmer info and policy details in stable memory.
-* Accept premium payments in ICP tokens.
-* Automatically issue payouts when drought triggers occur.
-* Emit events for transparency.
+```bash
+npm run generate
+```
 
-Each insurance policy is **represented as an NFT** using ICP's native token standards, ensuring traceable and verifiable ownership.
+at any time. This is recommended before starting the frontend development server, and will be run automatically any time you run `dfx deploy`.
 
-### 3. Weather Data via Native HTTPS Outcalls
-* Rainfall data is fetched directly from trusted weather APIs using **ICP's native HTTPS outcalls**.
-* **No external oracles needed** - canisters make direct API calls at web speed.
-* Logic is executed **on-chain** with sub-second processing times.
-* If rainfall is below the drought threshold, the canister triggers a payout — instantly and without bias.
+If you are making frontend changes, you can start a development server with
 
-### 4. Scheduled Monitoring via ICP Timers
-* Rainfall checks happen **automatically and periodically** using **ICP's native timer system**.
-* **Daily monitoring** ensures continuous protection without manual intervention.
-* This ensures that farmers don't need to manually request anything — if the drought happens, the contract knows.
+```bash
+npm start
+```
 
-### 5. Decentralized Storage on ICP
-Farmer details (name, farm size, crop type, location) are stored using **ICP's native storage**:
-* Essential data kept on-chain in canister stable memory
-* Rich metadata stored in dedicated asset canisters
-* **No external dependencies** like IPFS - everything runs natively on ICP
+Which will start a server at `http://localhost:8080`, proxying API requests to the replica at port 4943.
 
-## 🔗 Architecture Summary
+### Note on frontend environment variables
 
-| Layer | Tech Used |
-|-------|-----------|
-| **Smart Contracts** | Rust + IC-CDK |
-| **Weather Data** | Native HTTPS Outcalls |
-| **Frontend** | Rust Frontend Canister + Internet Identity |
-| **Blockchain** | Internet Computer Protocol |
-| **Storage** | Stable Memory + Asset Canisters |
-| **Policy Representation** | ICRC-7 NFTs |
+If you are hosting frontend code somewhere without using DFX, you may need to make one of the following adjustments to ensure your project does not fetch the root key in production:
 
-## 🧩 Example Workflow
-1. A farmer selects the "Flowering Stage" policy via **Internet Identity** (around January).
-2. The canister locks their premium in **ICP tokens** with instant confirmation.
-3. **Native HTTPS outcalls** fetch rainfall data daily from weather APIs.
-4. If there are, for example, **10 consecutive days with <5mm rainfall**, a payout is automatically issued to the farmer's wallet.
-5. The payout is recorded on-chain with complete transparency. No claims, no paperwork.
-
-## 🔮 Future Possibilities
-* 🌱 Support other crops (e.g., rice, cassava).
-* 👥 Add DAO-based policy governance using ICP's native governance capabilities.
-* 📱 Progressive Web App served directly from canisters.
-* 📊 Real-time analytics dashboards for NGOs and insurers.
-* 🔗 Cross-chain integration with Bitcoin and Ethereum via ICP's native bridges.
-* 🌍 Expansion across Sub-Saharan Africa with localized canisters.
-* 💰 Stablecoin integration using ckUSDC for price-stable payouts.
-* 🤖 AI-powered risk assessment using ICP's computational capabilities.
+- set`DFX_NETWORK` to `ic` if you are using Webpack
+- use your own preferred method to replace `process.env.DFX_NETWORK` in the autogenerated declarations
+  - Setting `canisters -> {asset_canister_id} -> declarations -> env_override to a string` in `dfx.json` will replace `process.env.DFX_NETWORK` with the string in the autogenerated declarations
+- Write your own `createActor` constructor
